@@ -1,0 +1,123 @@
+﻿@using System.Linq;
+
+
+@model voter20_21.Models.VotingFilter
+@{
+    ViewData["Title"] = "Closed Votings";
+}
+@if (ViewBag.email != null)
+{
+    
+    <h1>Önre vonatkozó lezárult szavazások.</h1>
+    @if (ViewBag.closedVotings != null)
+    {
+        <div class="row">
+            <div class="row-md-4">
+                <form asp-controller="Home" asp-action="ClosedVotings">
+                    <div class="text-danger">@Html.ValidationSummary(true, "Hibás szűrőfeltételek")</div>
+                    <p>Szűrhet azkra a szavazásokra amik:</p>
+                    <div class="form-group">
+                        <label asp-for="title" class="control-label">Témája tartalmazza ezt a szöveget:</label>
+                        <input asp-for="title" class="form-control" />
+                        <span asp-validation-for="title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="minStart" class="control-label">Legkorábban ekkor kezdődtek:</label>
+                        <input asp-for="minStart" class="form-control" />
+                        <span asp-validation-for="minStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="maxEnd" class="control-label">Legkésőbb ekkor végződtek:</label>
+                        <input asp-for="maxEnd" class="form-control" />
+                        <span asp-validation-for="maxEnd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="szűrés" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        if (((List<Voting>)ViewBag.closedVotings).Any())
+        {
+           
+            <table class="db" width="600">
+
+                @foreach (Voting voting in ViewBag.closedVotings)
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>szavazás témája:</strong>
+                                <p>
+                                    @voting.question
+                                </p>
+                            </div>
+                            <div>
+                                <strong>szavazás kezdete:</strong>
+                                <p>
+                                    @voting.start
+                                </p>
+                            </div>
+                            <div>
+                                <strong>szavazás vége:</strong>
+                                <p>
+                                    @voting.end
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        @if (ViewBag.votingStats != null && ViewBag.votingStats.votingId == voting.Id)
+                        {
+                            <td class="db">
+                                <h2>Válaszlehetőségek:</h2>
+                                <UL>
+                                    @foreach (AnswerStat answerStat in ViewBag.votingStats.votingAnswerStats)
+                                    {
+                                        <LI class="db">
+                                            <div>
+                                                <strong>válasz lehetőség:</strong>
+                                                <h3>@answerStat.text</h3>
+                                                <strong>Szavazatok száma:</strong>
+                                                <p>@answerStat.voteChosenNum</p>
+                                                <strong>Szavazatok százalékos megoszlása:</strong>
+                                                <p>@answerStat.voteChosenPercent</p>
+                                            </div>
+                                        </LI>
+
+                                    }
+                                </UL>
+                                <h2>Szavazás statisztikái:</h2>
+                                <strong>Résztvevők száma:</strong>
+                                <p>@ViewBag.votingStats.participantsNum</p>
+                                <strong>Résztvevők százalékos megoszlása:</strong>
+                                <p>@ViewBag.votingStats.participantsPercent</p>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="db, yb">
+                                <a asp-controller="Home" asp-action="ClosedVotings" asp-route-votingId=@voting.Id class="contentLink">A szavazás eredményét ide kattintva nézheti meg.</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>Nincs a szűrőfeltételeknek megfelelő lezárt szavazás</p>
+        }
+    }
+    else
+    {
+        <div><p class="ab">Nincsenek önre vonatkozó lezárult szavazások pillanatnyilag.</p></div>
+    }
+}
+else
+{
+    <div>A lezárult szavazások megtekintéséhez és új szavazás indításához regisztráljon, vagy jelentkezzen be</div>
+}
+<div class="text-center">
+    <p class="yb"><a asp-controller="Home" asp-action="Index">Az önre vonatkozó aktív szavazásokat itt nézheti meg</a></p>
+</div>

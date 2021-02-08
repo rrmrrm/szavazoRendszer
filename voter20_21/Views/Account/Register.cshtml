@@ -1,0 +1,42 @@
+﻿@model voter20_21.Models.RegistrationViewModel
+
+
+<h1>Register</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Account" asp-action="Register">
+            @{/*  <div asp-validation-summary="All" class="text-danger">@Html.ValidationSummary(true, "A regisztráció sikertelen!")</div>  */}
+            <div class="text-danger">@Html.ValidationSummary( true, "A regisztráció sikertelen!")</div>
+
+            <div class="form-group">
+                <label asp-for="email" class="control-label">email</label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label">password</label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="confirmPassword" class="control-label">confirmPassword</label>
+                <input asp-for="confirmPassword" class="form-control" />
+                <span asp-validation-for="confirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Regisztráció" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Login">If you already registered, you can log in here</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

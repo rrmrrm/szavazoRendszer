@@ -1,0 +1,74 @@
+﻿@using System.Linq;
+
+@model List<voter20_21.Models.Voting>
+@{
+    ViewData["Title"] = "Home Page";
+}
+   
+@if (ViewBag.email != null)
+{
+    <a asp-controller="Home" asp-action="ClosedVotings">Ide kattintva láthatja az önre vonatkozó lezárult szavazásokat.</a>
+    @if (Model != null && Model.Any())
+    {
+        <table class="db" width="600">
+           <caption><p>Aktív szavazások, amikben a felhasználó részt vehet:</p></caption>
+            @foreach (Voting voting in Model)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            <strong>szavazás témája:</strong>
+                            <p>
+                                @voting.question
+                            </p>
+                        </div>
+                        <div>
+                            <strong>szavazás kezdete:</strong>
+                            <p>
+                                @voting.start
+                            </p>
+                        </div>
+                        <div>
+                            <strong>szavazás vége:</strong>
+                            <p>
+                                @voting.end
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    @if (ViewBag.votingAnswers != null && ((List<Answer>)(ViewBag.votingAnswers)).Any() && ((List<Answer>)(ViewBag.votingAnswers))[0].votingId == voting.Id)
+                    {
+                        <td>
+                            <h2>Válaszlehetőségek:</h2>
+                            <UL>
+                                @foreach (Answer answer in ViewBag.votingAnswers)
+                                {
+                                    <LI class="db, yb">
+                                        <a asp-controller="Home" asp-action="Vote" asp-route-votingId=@voting.Id asp-route-answerId=@answer.Id class="contentLink">@answer.text</a>
+                                    </LI>
+
+                                }
+                            </UL>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="db, yb">
+                            <a asp-controller="Home" asp-action="Index" asp-route-votingId=@voting.Id class="contentLink">A szavazás részleteihez kattintson ide</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+
+    }
+    else
+    {
+        <div><p class="ab">Nincsenek önre vonatkozó aktív szavazások pillanatnyilag.</p></div>
+    }
+}
+else
+{
+    <div>A Szavazások megtekintéséhez és új szavazás indításához(utóbbi még nem elérhető) regisztráljon, vagy jelentkezzen be</div>
+}
