@@ -1,6 +1,6 @@
 # szavazoRendszer
 
-Ez nem verziókezeléssel készült, csak publikussá akartam tenni.
+Ez a projekt nem verziókezeléssel készült, csak publikussá akartam tenni.
 
 Készítsünk egy online anonim szavazó rendszert. 
 A kliens-szerver webalkalmazáson keresztül felhasználók meghatározott körének kérhetjük ki a véleményéta kérdés és a válasz opciók megadásával. 
