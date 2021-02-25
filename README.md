@@ -2,7 +2,7 @@
 
 Ez a projekt nem verziókezeléssel készült, csak publikussá akartam tenni.
 
-Készítsünk egy online anonim szavazó rendszert. 
+Ez egy online anonim szavazó rendszer. 
 A kliens-szerver webalkalmazáson keresztül felhasználók meghatározott körének kérhetjük ki a véleményéta kérdés és a válasz opciók megadásával. 
 A szavazás titkos, amelyet a programnak garantálnia kell (külön tárolandó a szavazatukat gyakorló felhasználók és a leadott szavazat).
 
